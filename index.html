@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Pulqui — Centro de Estudiantes UNaB</title>
+<meta name="description" content="Links de La Pulqui, Centro de Estudiantes de la UNaB" />
+<link rel="icon" href="assets/avatar.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="bg-decor" id="bg-decor" aria-hidden="true"></div>
+
+  <header class="profile__hero">
+    <img class="profile__avatar" src="assets/avatar.png" alt="La Pulqui" />
+    <h1 class="profile__name">La Pulqui</h1>
+    <p class="profile__description"></p>
+  </header>
+
+  <main class="page">
+
+    <div class="hero-links" id="hero-links">
+      <a class="profile__social" id="instagram-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.2c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.02-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+    </div>
+
+    <!-- ACTIVIDADES ABIERTAS: se llena solo desde Google Sheets -->
+    <section id="actividades" class="activities" hidden>
+      <h2 class="activities__title">📅 Actividades abiertas</h2>
+      <ul id="activities-list" class="activities__list"></ul>
+    </section>
+
+    <!-- GRUPOS INGRESANTES: carrusel de tarjetas con imagen -->
+    <section class="section" id="groups-section">
+      <h2 class="section__title" id="groups-title"></h2>
+      <div class="carousel">
+        <button class="carousel__arrow carousel__arrow--prev" id="carousel-prev" type="button" aria-label="Anterior">‹</button>
+        <ul class="carousel__track" id="groups-list"></ul>
+        <button class="carousel__arrow carousel__arrow--next" id="carousel-next" type="button" aria-label="Siguiente">›</button>
+      </div>
+    </section>
+
+    <div id="sections"></div>
+
+    <footer class="footer">
+      <p>Hecho con 💙 por La Pulqui · Centro de Estudiantes UNaB</p>
+    </footer>
+
+  </main>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
