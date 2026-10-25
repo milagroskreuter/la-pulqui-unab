@@ -78,15 +78,19 @@ function renderHeroLinks() {
   });
 }
 
-// Carruseles de grupos: uno por cada entrada de esta lista, en este orden
-// (2026 arriba, 2027 abajo). Cada uno necesita title, subtitle e items.
+// Carrusel de grupos de ingresantes. Hoy se muestra solo el de 2027 (el de
+// 2026, CONFIG.groups, sigue en config.js por si se quiere volver a mostrar:
+// alcanza con agregarlo a esta lista). Las tarjetas van en orden alfabético.
 function renderGroups() {
   const container = document.getElementById("groups-container");
   const g2027 = CONFIG.groups2027;
 
   const carousels = [
-    CONFIG.groups,
-    g2027 && { title: g2027.carouselTitle, subtitle: g2027.subtitle, items: g2027.items },
+    g2027 && {
+      title: g2027.carouselTitle,
+      subtitle: g2027.subtitle,
+      items: [...g2027.items].sort((a, b) => (a.sort || a.title).localeCompare(b.sort || b.title, "es")),
+    },
   ];
 
   carousels.forEach((groups) => {

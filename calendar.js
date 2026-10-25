@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const CAL_WEEKDAYS = ["L", "M", "M", "J", "V", "S", "D"]; // semana desde el lunes
+// qué tipo de fecha manda el color del día cuando hay varias
+const CAL_PRIORITY = ["feriado", "ingreso", "examenes", "inscripcion", "tramites", "clases", "receso"];
 const CAL_MAX_DOTS = 3;
+const CAL_HIGHLIGHT_MAX_DAYS = 14; // fechas más largas que esto no pintan el día
 const CAL_LIST_LIMIT = 4; // fechas visibles antes de "Ver más"
 
 function parseISODate(iso) {
@@ -22,6 +25,11 @@ function parseISODate(iso) {
 
 function sameDay(a, b) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+// cantidad de días que dura un evento (1 si es de un solo día)
+function eventDays(ev) {
+  return Math.round((ev.endDate - ev.startDate) / 86400000) + 1;
 }
 
 function capitalize(s) {
@@ -166,6 +174,14 @@ function setupCalendar(root) {
       cell.type = "button";
       if (sameDay(date, today)) cell.classList.add("is-today");
       if (holiday) cell.classList.add("is-holiday");
+
+      // día con fechas: se marca con el color del tipo de fecha más importante
+      // (los trámites muy largos, de más de dos semanas, solo dejan su puntito para no teñir todo el mes)
+      const highlight = CAL_PRIORITY.map((cat) => dayEvents.find((ev) => ev.cat === cat && !ev.period && eventDays(ev) <= CAL_HIGHLIGHT_MAX_DAYS)).find(Boolean);
+      if (highlight) {
+        cell.classList.add("has-event");
+        cell.style.setProperty("--cat", CALENDAR_DATA.categories[highlight.cat].color);
+      }
       if (state.selected && sameDay(date, state.selected)) cell.classList.add("is-selected");
 
       cell.appendChild(el("span", "cal-day__num", String(day)));

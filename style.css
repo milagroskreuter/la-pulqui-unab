@@ -993,7 +993,19 @@ html, body {
   font-weight: 500;
 }
 
-.cal-day.is-holiday .cal-day__num { color: #d64550; font-weight: 600; }
+/* Día con fechas: el número queda sobre un círculo del color del tipo de fecha */
+.cal-day.has-event .cal-day__num {
+  background: color-mix(in srgb, var(--cat) 20%, #fff);
+  color: color-mix(in srgb, var(--cat) 55%, #111);
+  font-weight: 700;
+}
+
+/* Si además es hoy, se mantiene el relleno de hoy con un aro del color de la fecha */
+.cal-day.is-today.has-event .cal-day__num {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--cat);
+}
 
 .cal-day.is-today .cal-day__num {
   background: var(--brand);

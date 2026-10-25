@@ -31,7 +31,7 @@ const CALENDAR_DATA = {
     inscripcion: { label: "Inscripción a cursada", color: "#2f6fed" },
     examenes:    { label: "Exámenes",              color: "#7c4dff" },
     tramites:    { label: "Trámites",              color: "#e8890c" },
-    ingreso:     { label: "Ingreso",               color: "#d6336c" },
+    ingreso:     { label: "Ingreso",               color: "#b620cc" },
     receso:      { label: "Receso",                color: "#8a94a6" },
     feriado:     { label: "Feriado / asueto",      color: "#e63946" },
   },
