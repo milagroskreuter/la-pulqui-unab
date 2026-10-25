@@ -621,12 +621,32 @@ html, body {
   gap: 5px;
 }
 
-.enrollment__careers li {
-  padding: 4px 10px;
+.enrollment__careers li { display: flex; }
+
+.enrollment__careers a {
+  padding: 5px 11px;
   border-radius: var(--radius-pill);
   background: var(--bg);
-  font-size: 0.72rem;
+  color: var(--text-main);
+  font-size: 0.74rem;
   line-height: 1.3;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.enrollment__careers a:hover,
+.enrollment__careers a:focus-visible {
+  background: #e3f3f6;
+  color: var(--brand);
+  outline: none;
+}
+
+.enrollment__info {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand);
 }
 
 .enrollment__button {

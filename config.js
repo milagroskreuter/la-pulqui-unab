@@ -76,7 +76,9 @@ const CONFIG = {
   // Fuente: https://www.unab.edu.ar/inscripciones/
   // Cada bloque: label (título), dates (fechas en texto), start/end (AAAA-MM-DD,
   // para el cartelito "Abierta ahora / Cerrada"), url, button (texto del botón)
-  // y, opcional, careers (lista visible). Para sacar la sección, borrá "enrollment".
+  // y, opcional, careers (lista visible; cada una con name y url a su página en
+  // unab.edu.ar/carreras) e infoUrl (link "Ver información de la carrera").
+  // Para sacar la sección entera, borrá "enrollment".
   enrollment: {
     title: "Preinscribite",
     help: "Es online, por el SIU Guaraní, de 8 a 20 hs. Elegí tu carrera y tocá el botón.",
@@ -89,6 +91,7 @@ const CONFIG = {
         end: "2026-10-27",
         url: "https://www.unab.edu.ar/inscripcion-enfermeria",
         button: "Preinscribirme en Enfermería",
+        infoUrl: "https://www.unab.edu.ar/lic-enfermeria/",
       },
       {
         label: "Todas las demás carreras",
@@ -98,20 +101,20 @@ const CONFIG = {
         url: "https://www.unab.edu.ar/inscripcion-carreras",
         button: "Preinscribirme en mi carrera",
         careers: [
-          "Tecnicatura en Ciencias de Datos",
-          "Tecnicatura en Acompañamiento Terapéutico",
-          "Tecnicatura en Programación",
-          "Tecnicatura en Comunicación Digital",
-          "Tecnicatura en Automatización y Control",
-          "Tecnicatura en Diseño y Desarrollo de Producto",
-          "Tecnicatura Gestión de las Organizaciones",
-          "Tecnicatura en Logística y Transporte",
-          "Tecnicatura en Prótesis Dental",
-          "Licenciatura en Ciencia Política",
-          "Licenciatura en Ciencias de Datos",
-          "Licenciatura en Logística y Transporte",
-          "Licenciatura en Administración",
-          "(CCC) Licenciatura en Enseñanza de la Matemática",
+          { name: "Tecnicatura en Ciencias de Datos", url: "https://www.unab.edu.ar/tec-ciencias-datos/" },
+          { name: "Tecnicatura en Acompañamiento Terapéutico", url: "https://www.unab.edu.ar/tec-acomp-terapeutico/" },
+          { name: "Tecnicatura en Programación", url: "https://www.unab.edu.ar/programacion/" },
+          { name: "Tecnicatura en Comunicación Digital", url: "https://www.unab.edu.ar/tec-comunicacion-digital/" },
+          { name: "Tecnicatura en Automatización y Control", url: "https://www.unab.edu.ar/automatizacion/" },
+          { name: "Tecnicatura en Diseño y Desarrollo de Producto", url: "https://www.unab.edu.ar/tec-desarrollo-producto/" },
+          { name: "Tecnicatura Gestión de las Organizaciones", url: "https://www.unab.edu.ar/gestion/" },
+          { name: "Tecnicatura en Logística y Transporte", url: "https://www.unab.edu.ar/logistica/" },
+          { name: "Tecnicatura en Prótesis Dental", url: "https://www.unab.edu.ar/protesis-dental/" },
+          { name: "Licenciatura en Ciencia Política", url: "https://www.unab.edu.ar/lic-ciencia-politica/" },
+          { name: "Licenciatura en Ciencias de Datos", url: "https://www.unab.edu.ar/lic-ciencia-datos/" },
+          { name: "Licenciatura en Logística y Transporte", url: "https://www.unab.edu.ar/lic-logistica-transporte/" },
+          { name: "Licenciatura en Administración", url: "https://www.unab.edu.ar/lic-administracion/" },
+          { name: "(CCC) Licenciatura en Enseñanza de la Matemática", url: "https://www.unab.edu.ar/ccc-matematica/" },
         ],
       },
     ],

@@ -190,21 +190,42 @@ function renderEnrollment() {
     dates.textContent = block.dates;
     box.appendChild(dates);
 
-    // las carreras incluidas se ven siempre, para que nadie dude si la suya está
+    // las carreras incluidas se ven siempre, para que nadie dude si la suya está;
+    // cada una lleva a su página en la web de la UNaB
     if (block.careers && block.careers.length > 0) {
       const intro = document.createElement("p");
       intro.className = "enrollment__intro";
-      intro.textContent = "Incluye estas carreras:";
+      intro.textContent = "Incluye estas carreras. Tocá una para ver su información en la web de la UNaB:";
       box.appendChild(intro);
 
       const list = document.createElement("ul");
       list.className = "enrollment__careers";
       block.careers.forEach((career) => {
         const li = document.createElement("li");
-        li.textContent = career;
+        if (isSafeUrl(career.url)) {
+          const a = document.createElement("a");
+          a.href = career.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = career.name;
+          li.appendChild(a);
+        } else {
+          li.textContent = career.name;
+        }
         list.appendChild(li);
       });
       box.appendChild(list);
+    }
+
+    // carrera única (Enfermería): link a su información
+    if (block.infoUrl && isSafeUrl(block.infoUrl)) {
+      const info = document.createElement("a");
+      info.className = "enrollment__info";
+      info.href = block.infoUrl;
+      info.target = "_blank";
+      info.rel = "noopener noreferrer";
+      info.textContent = "Ver información de la carrera";
+      box.appendChild(info);
     }
 
     const button = document.createElement("a");
