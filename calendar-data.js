@@ -11,6 +11,8 @@
 //   end    -> "AAAA-MM-DD" (si es un solo día, se puede omitir)
 //   cat    -> categoría (ver "categories" abajo)
 //   note   -> aclaración opcional (se ve en chico debajo del título)
+//   from/to -> horario diario "HH:MM" (opcional). La cuenta regresiva abre a la hora
+//             "from" del primer día y cierra a la hora "to" del último
 //   period -> true para períodos largos (clases, receso): se dibujan como
 //             una barrita en cada día en vez de un puntito
 //   scope  -> dónde se muestra: "general" (solo inicio, es el valor por
@@ -87,8 +89,8 @@ const CALENDAR_DATA = {
     { title: "Cambio de carrera, reincorporación y simultaneidad", start: "2026-10-26", end: "2026-11-13", cat: "tramites", note: "Presentación de solicitud" },
 
     // --- Ingreso 2027 (preinscripción: fechas de unab.edu.ar/inscripciones) ---
-    { title: "Preinscripción a Lic. en Enfermería 2027", start: "2026-10-26", end: "2026-10-27", cat: "ingreso", scope: "both", note: "Online por SIU Guaraní, de 8 a 20 hs" },
-    { title: "Preinscripción a las demás carreras 2027", start: "2026-11-02", end: "2026-11-13", cat: "ingreso", scope: "both", note: "Online por SIU Guaraní, de 8 a 20 hs" },
+    { title: "Preinscripción a Lic. en Enfermería 2027", start: "2026-10-26", end: "2026-10-27", from: "08:00", to: "20:00", cat: "ingreso", scope: "both", note: "Online por SIU Guaraní, de 8 a 20 hs" },
+    { title: "Preinscripción a las demás carreras 2027", start: "2026-11-02", end: "2026-11-13", from: "08:00", to: "20:00", cat: "ingreso", scope: "both", note: "Online por SIU Guaraní, de 8 a 20 hs" },
     { title: "Curso de Preparación Universitaria 2027 · Pedidos de exención", start: "2026-11-18", end: "2026-11-19", cat: "ingreso", scope: "both" },
     { title: "Curso de Preparación Universitaria 2027 · Inscripción a cursada", start: "2026-12-07", end: "2026-12-09", cat: "ingreso", scope: "both" },
 

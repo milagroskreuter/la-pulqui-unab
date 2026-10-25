@@ -155,18 +155,24 @@ function renderGroupTile(item) {
 // cuenta es la misma sin importar la zona horaria de quien mira.
 // ------------------------------------------------------------
 
-// Devuelve { mode: "ends" | "starts", ev, target } o null si no queda nada
+// Devuelve { mode: "starts" | "ends" | "reopens", ev, target } o null si no queda nada
 function pickCountdownTarget(now) {
   const events = CALENDAR_DATA.events
     .filter((ev) => ev.cat === "ingreso" && (ev.scope === "both" || ev.scope === "ingresantes"))
-    .map((ev) => ({ ev, start: argDate(ev.start, false), end: argDate(ev.end || ev.start, true) }));
+    .map((ev) => ({ ev, p: periodState(now, ev) }));
 
-  // lo que está en curso tiene prioridad: el que cierra primero
-  const active = events.filter((e) => e.start <= now && now <= e.end).sort((a, b) => a.end - b.end)[0];
-  if (active) return { mode: "ends", ev: active.ev, target: active.end };
+  // lo que ya empezó tiene prioridad: el que cierra primero
+  const running = events
+    .filter((e) => e.p.state === "open" || e.p.state === "between")
+    .sort((a, b) => a.p.last - b.p.last)[0];
+  if (running) {
+    return running.p.state === "open"
+      ? { mode: "ends", ev: running.ev, target: running.p.last }
+      : { mode: "reopens", ev: running.ev, target: running.p.opensAt }; // fuera del horario de hoy
+  }
 
-  const upcoming = events.filter((e) => e.start > now).sort((a, b) => a.start - b.start)[0];
-  if (upcoming) return { mode: "starts", ev: upcoming.ev, target: upcoming.start };
+  const upcoming = events.filter((e) => e.p.state === "before").sort((a, b) => a.p.first - b.p.first)[0];
+  if (upcoming) return { mode: "starts", ev: upcoming.ev, target: upcoming.p.first };
 
   return null;
 }
@@ -192,7 +198,11 @@ function setupCountdown() {
 
     const label = document.createElement("p");
     label.className = "countdown__label";
-    label.textContent = pick.mode === "ends" ? "En curso · cierra en" : "Próxima fecha · empieza en";
+    label.textContent = {
+      starts: "Próxima fecha · empieza en",
+      ends: "En curso · cierra en",
+      reopens: "Cerrada por hoy · abre en",
+    }[pick.mode];
     box.appendChild(label);
 
     const title = document.createElement("p");

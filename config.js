@@ -75,7 +75,8 @@ const CONFIG = {
   // --- Preinscripciones 2027 (paso 1 de ingresantes-2027.html).
   // Fuente: https://www.unab.edu.ar/inscripciones/
   // Cada bloque: label (título), dates (fechas en texto), start/end (AAAA-MM-DD,
-  // para el cartelito "Abierta ahora / Cerrada"), url, button (texto del botón)
+  // para el cartelito "Abierta ahora / Cerrada"), from/to (horario diario, "HH:MM"),
+  // url, button (texto del botón)
   // y, opcional, careers (lista visible; cada una con name y url a su página en
   // unab.edu.ar/carreras) e infoUrl (link "Ver información de la carrera").
   // Para sacar la sección entera, borrá "enrollment".
@@ -89,6 +90,8 @@ const CONFIG = {
         dates: "26 y 27 de octubre",
         start: "2026-10-26",
         end: "2026-10-27",
+        from: "08:00",
+        to: "20:00",
         url: "https://www.unab.edu.ar/inscripcion-enfermeria",
         button: "Preinscribirme en Enfermería",
         infoUrl: "https://www.unab.edu.ar/lic-enfermeria/",
@@ -98,6 +101,8 @@ const CONFIG = {
         dates: "Del 2 al 13 de noviembre",
         start: "2026-11-02",
         end: "2026-11-13",
+        from: "08:00",
+        to: "20:00",
         url: "https://www.unab.edu.ar/inscripcion-carreras",
         button: "Preinscribirme en mi carrera",
         careers: [

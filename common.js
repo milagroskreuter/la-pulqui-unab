@@ -142,13 +142,70 @@ function buildBlockHead({ num, title, help, titleId }) {
 // Los datos salen de CONFIG.enrollment (config.js).
 // ------------------------------------------------------------
 
+// Horario de atención: "08:00" -> "8", "20:30" -> "20:30"
+function hourLabel(time) {
+  const [h, m] = time.split(":");
+  return m === "00" ? String(Number(h)) : `${Number(h)}:${m}`;
+}
+
+function argDateTime(iso, time) {
+  const t = time.length === 5 ? `${time}:00` : time;
+  return new Date(`${iso}T${t}${AR_OFFSET}`);
+}
+
+// Fecha de hoy en Argentina (AAAA-MM-DD). UTC-3 fijo: allá no hay horario de verano.
+function argToday(now) {
+  return new Date(now.getTime() - 3 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+function addDaysIso(iso, days) {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+// Estado de un período con fechas (start..end) y, opcional, un horario diario
+// (from..to, ej. de 08:00 a 20:00). Devuelve:
+//   before  -> todavía no empezó (first = primer momento en que abre)
+//   open    -> se puede hacer ahora (last = cierre definitivo; closesAt = cierre de hoy)
+//   between -> dentro del período pero fuera del horario (opensAt = próxima apertura)
+//   after   -> ya terminó
+function periodState(now, { start, end, from, to }) {
+  const first = argDateTime(start, from || "00:00");
+  const last = argDateTime(end || start, to || "23:59:59");
+  if (now < first) return { state: "before", first, last };
+  if (now > last) return { state: "after", first, last };
+  if (!from || !to) return { state: "open", first, last };
+
+  const today = argToday(now);
+  const open = argDateTime(today, from);
+  const close = argDateTime(today, to);
+  if (now < open) return { state: "between", first, last, opensAt: open, today: true };
+  if (now <= close) return { state: "open", first, last, closesAt: close };
+  return { state: "between", first, last, opensAt: argDateTime(addDaysIso(today, 1), from), today: false };
+}
+
 function enrollmentStatus(block, now) {
   if (!block.start || !block.end) return null;
-  if (now < argDate(block.start, false)) {
-    return { kind: "soon", text: `Todavía no abrió · abre el ${formatLongDate(block.start)}` };
+  const p = periodState(now, block);
+  const daily = Boolean(block.from && block.to);
+
+  if (p.state === "before") {
+    const hour = block.from ? ` a las ${hourLabel(block.from)} hs` : "";
+    return { kind: "soon", text: `Todavía no abrió · abre el ${formatLongDate(block.start)}${hour}` };
   }
-  if (now <= argDate(block.end, true)) {
-    return { kind: "open", text: `Abierta ahora · cierra el ${formatLongDate(block.end)}` };
+  if (p.state === "open") {
+    if (!daily) return { kind: "open", text: `Abierta ahora · cierra el ${formatLongDate(block.end)}` };
+    const lastDay = argToday(now) === block.end;
+    return {
+      kind: "open",
+      text: lastDay
+        ? `Abierta ahora · cierra hoy a las ${hourLabel(block.to)} hs`
+        : `Abierta ahora · hasta las ${hourLabel(block.to)} hs`,
+    };
+  }
+  if (p.state === "between") {
+    return { kind: "soon", text: `Cerrada por hoy · abre ${p.today ? "hoy" : "mañana"} a las ${hourLabel(block.from)} hs` };
   }
   return { kind: "closed", text: "Cerrada" };
 }
@@ -187,7 +244,10 @@ function renderEnrollment() {
 
     const dates = document.createElement("p");
     dates.className = "enrollment__dates";
-    dates.textContent = block.dates;
+    dates.textContent =
+      block.from && block.to
+        ? `${block.dates} · de ${hourLabel(block.from)} a ${hourLabel(block.to)} hs`
+        : block.dates;
     box.appendChild(dates);
 
     // las carreras incluidas se ven siempre, para que nadie dude si la suya está;
