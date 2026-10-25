@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ingreso 2027 — La Pulqui</title>
+<meta name="description" content="Preinscripciones y grupos de WhatsApp por carrera para ingresantes 2027 de la UNaB, por La Pulqui Centro de Estudiantes" />
+<link rel="icon" href="assets/avatar.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-ingresantes">
+
+  <div class="hero-gradient" aria-hidden="true"></div>
+  <div class="bg-decor" id="bg-decor" aria-hidden="true"></div>
+
+  <header class="profile__hero">
+    <a class="back-chip" href="/" aria-label="Volver al inicio">
+      <span aria-hidden="true">←</span> Inicio
+    </a>
+    <img class="profile__avatar" src="assets/avatar.png" alt="La Pulqui" />
+    <h1 class="profile__name" id="page-title"></h1>
+    <p class="profile__description" id="page-description"></p>
+    <!-- Cuenta regresiva a la próxima fecha de ingreso (ingresantes-2027.js) -->
+    <div class="countdown" id="countdown" role="timer" hidden></div>
+  </header>
+
+  <main class="page">
+
+    <!-- FECHAS IMPORTANTES: calendario con solo lo relevante para ingresantes -->
+    <section class="block calendar" data-scope="ingresantes" data-title="Fechas importantes" data-help="Tocá un día del calendario para ver qué pasa ese día."></section>
+
+    <!-- PASO 1: preinscripciones (se arma desde CONFIG.enrollment) -->
+    <section class="block enrollment" id="enrollment" aria-labelledby="enrollment-title" hidden></section>
+
+    <!-- PASO 2: grupos de WhatsApp por carrera -->
+    <section class="block finder" aria-labelledby="finder-title">
+      <header class="block-head">
+        <span class="block-head__num" aria-hidden="true">2</span>
+        <div class="block-head__text">
+          <h2 class="block-head__title" id="finder-title">Sumate al grupo de tu carrera</h2>
+          <p class="block-head__help">Buscá tu carrera o tocá su foto. Se abre WhatsApp y entrás al grupo.</p>
+        </div>
+      </header>
+
+      <div class="finder__box">
+        <svg class="finder__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M20 20l-3.5-3.5"></path>
+        </svg>
+        <input
+          class="finder__input"
+          id="finder-input"
+          type="search"
+          placeholder="Escribí tu carrera…"
+          aria-label="Buscá tu carrera"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          enterkeyhint="go"
+          aria-controls="finder-results"
+        />
+        <button class="finder__clear" id="finder-clear" type="button" aria-label="Borrar búsqueda" hidden>×</button>
+      </div>
+
+      <p class="finder__count" id="finder-count" role="status" aria-live="polite"></p>
+
+      <ul class="finder__results" id="finder-results"></ul>
+
+      <div class="finder__empty" id="finder-empty" hidden>
+        <p>No encontramos esa carrera 🤔</p>
+        <p class="finder__empty-hint">Probá con otras letras, o escribinos y te ayudamos:</p>
+        <div class="hero-links" id="empty-links"></div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="block block--center contact" aria-labelledby="contact-title">
+      <header class="block-head">
+        <div class="block-head__text">
+          <h2 class="block-head__title" id="contact-title">¿Te quedó alguna duda?</h2>
+          <p class="block-head__help">Escribinos por Instagram y te damos una mano 💙</p>
+        </div>
+      </header>
+      <a class="contact__btn contact__btn--primary" id="contact-instagram" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.02-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.4-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+        <span>Escribinos por Instagram</span>
+      </a>
+    </section>
+
+    <!-- COMPARTIR -->
+    <section class="block block--center share" aria-labelledby="share-title">
+      <header class="block-head">
+        <div class="block-head__text">
+          <h2 class="block-head__title" id="share-title">¿Conocés a alguien que también ingresa?</h2>
+          <p class="block-head__help">Mandale esta página para que no se pierda ninguna fecha.</p>
+        </div>
+      </header>
+      <button class="contact__btn" id="share-btn" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+        <span>Compartir con un amigo</span>
+      </button>
+      <p class="contact__toast" id="share-toast" role="status" hidden></p>
+    </section>
+
+    <footer class="footer">
+      <p>Hecho con 💙 por La Pulqui · Centro de Estudiantes UNaB</p>
+    </footer>
+
+  </main>
+
+  <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script src="calendar-data.js"></script>
+  <script src="calendar.js"></script>
+  <script src="ingresantes-2027.js"></script>
+</body>
+</html>

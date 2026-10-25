@@ -13,6 +13,8 @@ const CONFIG = {
   // --- Pastillas junto al Instagram (accesos rápidos) ---
   // "icon" usa un ícono ya dibujado en script.js: "whatsapp" | "library" | "campus" | "clipboard"
   heroLinks: [
+    // highlight: botón destacado; sameTab: se abre en la misma pestaña (link interno)
+    { title: "Preinscripciones y grupos 2027", url: "ingresantes-2027.html", icon: "graduation", sameTab: true, highlight: true },
     { title: "Canal de WhatsApp", url: "https://whatsapp.com/channel/0029VaBrByaCsU9U8ftHhK3d", icon: "whatsapp" },
     { title: "Biblioteca Virtual", url: "https://drive.google.com/drive/folders/1GYbCxjDEohxmuKd-EAthOo2XGbauCM0W", icon: "library" },
     { title: "Campus Virtual", url: "https://campus.unab.edu.ar/login", icon: "campus" },
@@ -67,6 +69,78 @@ const CONFIG = {
       { title: "Programación", url: "https://chat.whatsapp.com/GEX4b2EWqVU2rRZsz33L96?mode=wwt", image: "assets/group-programacion.jpeg" },
       { title: "Acompañamiento terapéutico", url: "https://chat.whatsapp.com/COmGjzmpmqfF49mbfIO8jp?mode=wwt", image: "assets/group-acompanamiento-terapeutico.jpeg" },
       { title: "automatización y control", url: "https://chat.whatsapp.com/KCbPJ1SypDOC8cQroqNu0k?mode=wwt", image: "assets/group-automatizacion-control.jpeg" },
+    ],
+  },
+
+  // --- Preinscripciones 2027 (paso 1 de ingresantes-2027.html).
+  // Fuente: https://www.unab.edu.ar/inscripciones/
+  // Cada bloque: label (título), dates (fechas en texto), start/end (AAAA-MM-DD,
+  // para el cartelito "Abierta ahora / Cerrada"), url, button (texto del botón)
+  // y, opcional, careers (lista visible). Para sacar la sección, borrá "enrollment".
+  enrollment: {
+    title: "Preinscribite",
+    help: "Es online, por el SIU Guaraní, de 8 a 20 hs. Elegí tu carrera y tocá el botón.",
+    sourceUrl: "https://www.unab.edu.ar/inscripciones/",
+    blocks: [
+      {
+        label: "Licenciatura en Enfermería",
+        dates: "26 y 27 de octubre",
+        start: "2026-10-26",
+        end: "2026-10-27",
+        url: "https://www.unab.edu.ar/inscripcion-enfermeria",
+        button: "Preinscribirme en Enfermería",
+      },
+      {
+        label: "Todas las demás carreras",
+        dates: "Del 2 al 13 de noviembre",
+        start: "2026-11-02",
+        end: "2026-11-13",
+        url: "https://www.unab.edu.ar/inscripcion-carreras",
+        button: "Preinscribirme en mi carrera",
+        careers: [
+          "Tecnicatura en Ciencias de Datos",
+          "Tecnicatura en Acompañamiento Terapéutico",
+          "Tecnicatura en Programación",
+          "Tecnicatura en Comunicación Digital",
+          "Tecnicatura en Automatización y Control",
+          "Tecnicatura en Diseño y Desarrollo de Producto",
+          "Tecnicatura Gestión de las Organizaciones",
+          "Tecnicatura en Logística y Transporte",
+          "Tecnicatura en Prótesis Dental",
+          "Licenciatura en Ciencia Política",
+          "Licenciatura en Ciencias de Datos",
+          "Licenciatura en Logística y Transporte",
+          "Licenciatura en Administración",
+          "(CCC) Licenciatura en Enseñanza de la Matemática",
+        ],
+      },
+    ],
+  },
+
+  // --- Página de ingresantes 2027 (ingresantes-2027.html) ---
+  // "keywords": palabras extra que también encuentra el buscador (ej: "tec" o
+  // "lic" para Administración). El buscador ignora tildes y mayúsculas.
+  // "sort": con qué nombre se ordena alfabéticamente la tarjeta (por defecto, su título).
+  groups2027: {
+    title: "Ingreso 2027", // título de la pestaña del navegador
+    heading: "INGRESO 2027", // título grande de la página
+    description: "Todo lo que necesitás para inscribirte 💙",
+    // así se ve en el carrusel de la página de inicio
+    carouselTitle: "GRUPOS INGRESANTES 2027",
+    subtitle: "WhatsApp Community",
+    items: [
+      { title: "Enfermería", url: "https://chat.whatsapp.com/DgLYeO88208GU4U5cWG4Hw?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-enfermeria.jpg" },
+      { title: "CCC en Enseñanza de la Matemática", url: "https://chat.whatsapp.com/FfwjIombA7nDB3AeoS0TTy?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-ensenanza-matematica.jpg", sort: "Enseñanza de la Matemática", keywords: "ccc matematica profesorado" },
+      { title: "Ciencia de Datos", url: "https://chat.whatsapp.com/JXSqU6Pi78p7a1jYT1tApc?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-ciencia-de-datos.jpg" },
+      { title: "Automatización y Control", url: "https://chat.whatsapp.com/IwTZjg4LQEpDWKdrPtgilY?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-automatizacion-control.jpg" },
+      { title: "Programación", url: "https://chat.whatsapp.com/EAFbJmdIzkR3pg35jc91W5?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-programacion.jpg" },
+      { title: "Logística y Transporte", url: "https://chat.whatsapp.com/GI9dPbjsZ2JDBYs1A8dOFm?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-logistica-transporte.jpg" },
+      { title: "Acompañamiento Terapéutico", url: "https://chat.whatsapp.com/CEgW1anDGcJJLtVjAW0oJ3?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-acompanamiento-terapeutico.jpg" },
+      { title: "Comunicación Digital", url: "https://chat.whatsapp.com/GB8sOpQzxpfA6VYab3nGKj?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-comunicacion-digital.jpg" },
+      { title: "Diseño y Desarrollo de Producto", url: "https://chat.whatsapp.com/COfWAiNLIrxCXqPKJKO0Z3?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-diseno-producto.jpg" },
+      { title: "Tec. en Gestión / Lic. en Administración", url: "https://chat.whatsapp.com/KkdEmmC3eNv8gL5foAxWYA?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-administracion-gestion.jpg", sort: "Administración", keywords: "tecnicatura licenciatura administracion gestion organizaciones" },
+      { title: "Ciencia Política", url: "https://chat.whatsapp.com/KlVO420cg4413VI16cpdDJ?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-ciencia-politica.jpg" },
+      { title: "Prótesis Dental", url: "https://chat.whatsapp.com/EegMHBna0wvGC3QPnMZ9VG?s=cl&p=a&mlu=4&ilr=4", image: "assets/group2027-protesis-dental.jpg", keywords: "odontologia dientes" },
     ],
   },
 

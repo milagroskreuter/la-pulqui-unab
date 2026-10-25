@@ -15,73 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ------------------------------------------------------------
-// Fondo animado: lluvia sutil y lenta de "+" y círculos
-// ------------------------------------------------------------
-
-function renderBackgroundDecor() {
-  const container = document.getElementById("bg-decor");
-  if (!container) return;
-
-  const PLUS = "assets/decor-splash.svg";
-  const RING = "assets/decor-blob-tinted.svg";
-  // el "+" es un trazo más fino que el anillo, así que le damos más
-  // proporción y un pelín más de opacidad para que pesen parecido a la vista
-  const PLUS_RATIO = 0.58;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const count = reduceMotion ? 12 : 20;
-
-  // Repartimos el ancho en franjas (una por partícula) y tiramos cada una
-  // en un punto al azar DENTRO de su franja: así quedan esparcidas parejo
-  // en todo el ancho (mezcladas entre sí) en vez de agruparse por azar en
-  // los costados.
-  const positions = Array.from({ length: count }, (_, i) => {
-    const bandWidth = 100 / count;
-    return i * bandWidth + Math.random() * bandWidth;
-  });
-  shuffleInPlace(positions);
-
-  for (let i = 0; i < count; i++) {
-    const isPlus = Math.random() < PLUS_RATIO;
-    const img = document.createElement("img");
-    img.className = "bg-decor__particle";
-    img.src = isPlus ? PLUS : RING;
-    img.alt = "";
-
-    const size = isPlus ? 16 + Math.random() * 20 : 14 + Math.random() * 22; // px
-    const opacity = isPlus ? 0.07 + Math.random() * 0.09 : 0.05 + Math.random() * 0.08;
-    const duration = 26 + Math.random() * 26; // 26–52s: lento
-    const delay = -Math.random() * duration; // arrancan ya "en caída"
-    const drift = `${(Math.random() * 60 - 30).toFixed(0)}px`; // leve vaivén lateral
-    const spin = `${(Math.random() < 0.5 ? -1 : 1) * (90 + Math.random() * 180)}deg`;
-
-    img.style.left = `${positions[i]}%`;
-    img.style.width = `${size}px`;
-    img.style.opacity = String(opacity);
-    img.style.setProperty("--drift", drift);
-    img.style.setProperty("--spin", spin);
-
-    if (reduceMotion) {
-      // sin animación: las repartimos estáticas en toda la altura visible
-      img.style.top = `${Math.random() * 100}vh`;
-    } else {
-      img.style.animationDuration = `${duration}s`;
-      img.style.animationDelay = `${delay}s`;
-    }
-
-    container.appendChild(img);
-  }
-}
-
-function shuffleInPlace(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
 function renderProfile() {
   document.querySelector(".profile__description").textContent =
     CONFIG.profile.description;
@@ -103,6 +36,8 @@ const HERO_ICONS = {
     '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H12v20H6.5A2.5 2.5 0 0 1 4 19.5v-15zM13 2h4.5A2.5 2.5 0 0 1 20 4.5v15a2.5 2.5 0 0 1-2.5 2.5H13V2z"/></svg>',
   campus:
     '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H7v-2h3v-2H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1 2v9h16V6H4z"/></svg>',
+  graduation:
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>',
   clipboard:
     '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9 2h6a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V3a1 1 0 0 1 1-1zm0 2v1h6V4H9zM6 6v14h12V6h-2v1a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V6H6zm2 7h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>',
 };
@@ -119,10 +54,13 @@ function renderHeroLinks() {
     }
 
     const a = document.createElement("a");
-    a.className = "profile__social";
+    a.className = link.highlight ? "profile__social profile__social--highlight" : "profile__social";
     a.href = link.url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+    // los links internos (sameTab) navegan en la misma pestaña
+    if (!link.sameTab) {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
 
     const iconSvg = HERO_ICONS[link.icon];
     if (iconSvg) {
@@ -140,18 +78,50 @@ function renderHeroLinks() {
   });
 }
 
+// Carruseles de grupos: uno por cada entrada de esta lista, en este orden
+// (2026 arriba, 2027 abajo). Cada uno necesita title, subtitle e items.
 function renderGroups() {
-  const groups = CONFIG.groups;
-  const section = document.getElementById("groups-section");
-  if (!groups || !groups.items || groups.items.length === 0) {
-    section.remove();
-    return;
-  }
+  const container = document.getElementById("groups-container");
+  const g2027 = CONFIG.groups2027;
 
-  document.getElementById("groups-title").textContent = groups.title;
+  const carousels = [
+    CONFIG.groups,
+    g2027 && { title: g2027.carouselTitle, subtitle: g2027.subtitle, items: g2027.items },
+  ];
 
-  const list = document.getElementById("groups-list");
-  list.innerHTML = "";
+  carousels.forEach((groups) => {
+    if (groups && groups.items && groups.items.length > 0) {
+      container.appendChild(renderGroupCarousel(groups));
+    }
+  });
+}
+
+function renderGroupCarousel(groups) {
+  const section = document.createElement("section");
+  section.className = "section";
+
+  const title = document.createElement("h2");
+  title.className = "section__title";
+  title.textContent = groups.title;
+  section.appendChild(title);
+
+  const carousel = document.createElement("div");
+  carousel.className = "carousel";
+
+  const prev = document.createElement("button");
+  prev.className = "carousel__arrow carousel__arrow--prev";
+  prev.type = "button";
+  prev.setAttribute("aria-label", "Anterior");
+  prev.textContent = "‹";
+
+  const list = document.createElement("ul");
+  list.className = "carousel__track";
+
+  const next = document.createElement("button");
+  next.className = "carousel__arrow carousel__arrow--next";
+  next.type = "button";
+  next.setAttribute("aria-label", "Siguiente");
+  next.textContent = "›";
 
   groups.items.forEach((item) => {
     if (!isSafeUrl(item.url)) {
@@ -195,12 +165,16 @@ function renderGroups() {
     list.appendChild(li);
   });
 
-  setupCarouselArrows(list);
+  carousel.appendChild(prev);
+  carousel.appendChild(list);
+  carousel.appendChild(next);
+  section.appendChild(carousel);
+
+  setupCarouselArrows(list, prev, next);
+  return section;
 }
 
-function setupCarouselArrows(track) {
-  const prev = document.getElementById("carousel-prev");
-  const next = document.getElementById("carousel-next");
+function setupCarouselArrows(track, prev, next) {
   const scrollByCard = () => {
     const card = track.querySelector(".group-card");
     return card ? card.getBoundingClientRect().width + 14 : 180;
@@ -351,17 +325,6 @@ function buildColumnIndex(header) {
 function cell(row, cols, name) {
   const i = cols[normalizeHeader(name)];
   return i === undefined ? "" : (row[i] || "").trim();
-}
-
-// Solo se acepta http(s)/mailto: bloquea "javascript:", "data:", etc. que
-// alguien pudiera llegar a escribir por error (o con mala intención) en la hoja.
-function isSafeUrl(raw) {
-  try {
-    const url = new URL(raw, window.location.href);
-    return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "mailto:";
-  } catch {
-    return false;
-  }
 }
 
 function parseActivityRow(row, cols) {

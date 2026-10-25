@@ -39,15 +39,11 @@
       <ul id="activities-list" class="activities__list"></ul>
     </section>
 
-    <!-- GRUPOS INGRESANTES: carrusel de tarjetas con imagen -->
-    <section class="section" id="groups-section">
-      <h2 class="section__title" id="groups-title"></h2>
-      <div class="carousel">
-        <button class="carousel__arrow carousel__arrow--prev" id="carousel-prev" type="button" aria-label="Anterior">‹</button>
-        <ul class="carousel__track" id="groups-list"></ul>
-        <button class="carousel__arrow carousel__arrow--next" id="carousel-next" type="button" aria-label="Siguiente">›</button>
-      </div>
-    </section>
+    <!-- CALENDARIO ACADÉMICO: siempre abre en el mes actual (calendar.js) -->
+    <section class="calendar" data-scope="general" data-title="🗓️ Calendario académico" data-help="Tocá un día del calendario para ver qué pasa ese día."></section>
+
+    <!-- GRUPOS INGRESANTES: un carrusel de tarjetas con imagen por año -->
+    <div id="groups-container" class="groups-container"></div>
 
     <div id="sections"></div>
 
@@ -58,6 +54,9 @@
   </main>
 
   <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script src="calendar-data.js"></script>
+  <script src="calendar.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
