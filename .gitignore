@@ -1,1 +1,4 @@
 .netlify/
+
+# afiches/PDF para imprimir (no son parte del sitio, no se publican)
+impresos/
